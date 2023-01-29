@@ -11,9 +11,9 @@ module.exports = {
     register: async (req, res) => {
         try {
 
-            const {email, password} = req.body;
+            const {name, email, password} = req.body;
 
-            if([email, password].includes('')){
+            if([name, email, password].includes('')){
                 throw createError(400,'Todos los campos son obligatorios')
             }
 
@@ -31,7 +31,7 @@ module.exports = {
 
                 const userStore = await user.save();
 
-                //TODO: enviar el email de confirmacion
+                //TO DO: enviar el email de confirmacion con el TOKEN
 
 
             return res.status(201).json({
@@ -49,11 +49,11 @@ module.exports = {
 
     login: async (req, res) => {
 
-        const {name, email, password} = req.body;
+        const {email, password} = req.body;
 
         try {
 
-            if([name, email, password].includes('')){
+            if([email, password].includes('')){
                 throw createError(400,'Todos los campos son obligatorios')
             }
 
@@ -90,35 +90,71 @@ module.exports = {
         }
     },
 
+
+    /* C H E C K E D */
+
     checked: async (req, res) => {
+
+        const {token} = req.query 
         try {
+
+            if(!token){
+                throw createError(400,'Token no valido')
+            };
+            
+            const user = await User.findOne({
+                token
+            })
+            
+            if(!user){
+                throw createError(400,'Token no valido')
+            };
+
+            user.checked = true;
+            user.token = '';
+
+            await user.save()
+
             return res.status(201).json({
                 ok: true,
-                msg: "Usuario checkeado.",
+                msg: "Registrado con exito.",
             });
         } catch (error) {
-            console.log(error);
-            return res.status(error.status || 500).json({
-                ok: false,
-                msg: error.message || "error! Problemas en el Check.",
-            });
+            return errorResponse(res,error, "CHECKED")
         }
     },
 
+
+        /* S E N D  T O K E N  */
+
     sendToken: async (req, res) => {
+
+        const {email} =req.body;
+
         try {
+
+            let user = await User.findOne({
+                email
+            })
+
+            if(!user) throw createError(400,'Email incorrecto')
+
+            user.token = generateToken();
+            await user.save();
+
+            /* TO DO: Enviar email para reestablecer password  */
+
             return res.status(200).json({
                 ok: true,
-                msg: "Token enviado.",
+                msg: "Se a enviado un email con instrucciones",
             });
         } catch (error) {
-            console.log(error);
-            return res.status(error.status || 500).json({
-                ok: false,
-                msg: error.message || "error! Problemas en el envio de Token.",
-            });
+            return errorResponse(res,error, "SEND-TOKEN")
         }
     },
+
+
+            /* V E R I F Y   T O K E N  */
 
     verifyToken: async (req, res) => {
         try {
@@ -134,6 +170,9 @@ module.exports = {
             });
         }
     },
+
+
+               /* C H A N G E   P A S S W O R D  */
 
     changePassword : async (req, res) => {
         try {
