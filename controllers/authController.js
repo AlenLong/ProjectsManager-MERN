@@ -1,15 +1,19 @@
 const createError = require('http-errors');
 const User = require('../database/models/User');
 const errorResponse = require('../helpers/errorResponse');
+const generateJWT = require('../helpers/generateJWT');
 const generateToken = require('../helpers/generateToken');
 
 module.exports = {
+
+    /* R E G I S T E R */
+
     register: async (req, res) => {
         try {
 
-            const {name, email, password} = req.body;
+            const {email, password} = req.body;
 
-            if([name, email, password].includes('')){
+            if([email, password].includes('')){
                 throw createError(400,'Todos los campos son obligatorios')
             }
 
@@ -40,18 +44,49 @@ module.exports = {
         }
     },
 
+
+/* L O G I N  */
+
     login: async (req, res) => {
+
+        const {name, email, password} = req.body;
+
         try {
+
+            if([name, email, password].includes('')){
+                throw createError(400,'Todos los campos son obligatorios')
+            }
+
+            let user = await User.findOne({
+                email 
+            });
+
+                if(!user){
+                    throw createError(403,'Credenciales invalidas | EMAIL')
+                }
+                if(!user.checked){
+                    throw createError(403,'Tu cuenta no ah sido confirmada')
+                }
+                
+                if(!await user.checkedPassword(password)){   
+                    throw createError(403,'Credenciales invalidas | PASSWORD')
+                    
+                } 
+                    
+
             return res.status(200).json({
                 ok: true,
                 msg: "Usuario logueado.",
+                user: {
+                    nombre : user.name,
+                    email : user.email,
+                    token : generateJWT({
+                        id : user._id
+                    })
+                }
             });
         } catch (error) {
-            console.log(error);
-            return res.status(error.status || 500).json({
-                ok: false,
-                msg: error.message || "error! Problemas en el Login.",
-            });
+            return errorResponse(res,error, "LOGIN")
         }
     },
 
