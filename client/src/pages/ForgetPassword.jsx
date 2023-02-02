@@ -1,7 +1,9 @@
+import { Card, Row, Form, Container, Button, Nav } from "react-bootstrap"
+import { Link } from "react-router-dom"
+
+
 export const ForgetPassword = () => {
     return (
-        <Row className="align-items-center" style={{ height: '100vh' }}>
-        <Card className='m-auto' style={{ width: '20rem' }}>
             <Card.Body>
         
                 <Form>
@@ -20,10 +22,11 @@ export const ForgetPassword = () => {
                         <Button type="submit">Recuperar contraseña</Button>
                     </Container>
                 </Form>
-        
+                <Nav className="m-2">
+                    <Link to={"/register"} className='mx-2'>Registrate</Link>
+                    <Link to={"/"}>Iniciá sesión</Link>
+                </Nav>
             </Card.Body>
-        </Card>
-        </Row>
     )
 }
 

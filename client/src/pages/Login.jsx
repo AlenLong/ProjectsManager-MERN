@@ -1,9 +1,10 @@
+import { Card, Row, Form, Container, Button } from "react-bootstrap"
+import { Link } from "react-router-dom"
+
 export const Login = () => {
     return (
-        <Row className="align-items-center" style={{ height: '100vh' }}>
-            <Card className='m-auto' style={{ width: '20rem' }}>
-                <Card.Body>
 
+                <Card.Body>
                     <Form>
                         <Card.Title className={'text-center'}>Iniciá sesión</Card.Title>
 
@@ -29,9 +30,10 @@ export const Login = () => {
                             <Button type="submit">Iniciar Sesión</Button>
                         </Container>
                     </Form>
-
+                    <nav>
+                        <Link to={'/register'}>¿No tenés una cuenta? Registrate</Link>
+                        <Link to={'/forget-password'}>Olvidé mi password</Link>
+                    </nav>
                 </Card.Body>
-            </Card>
-        </Row>
     )
 }

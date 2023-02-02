@@ -1,7 +1,7 @@
+import { Card, Row, Form, Container, Button } from "react-bootstrap"
+
 export const RecoverPassword = () => {
     return (
-        <Row className="align-items-center" style={{ height: '100vh' }}>
-        <Card className='m-auto' style={{ width: '20rem' }}>
             <Card.Body>
         
                 <Form>
@@ -22,7 +22,5 @@ export const RecoverPassword = () => {
                 </Form>
         
             </Card.Body>
-        </Card>
-        </Row>
     )
 }
