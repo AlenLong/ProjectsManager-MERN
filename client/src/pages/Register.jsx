@@ -3,13 +3,19 @@ import { Card, Form, Container, Button, Nav } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import { useForm } from "../hooks/useForm"
 import { Alerta} from "../components/Alerta"
+import { clientAxios } from "../config/clientAxios"
+import Swal from 'sweetalert2'
+
+const exRegEmail = /^[^@]+@[^@]+\.[a-zA-Z]{2,}/;
 
 
 export const Register = () => {
 
     const [alert, setAlert] = useState({})
 
-    const {formValues, setFormValues, handleInputChange, reset} = useForm({
+    const [sending, setSending] = useState(false)
+
+    const {formValues, handleInputChange, reset} = useForm({
         name: '',
         email: '',
         password: '',
@@ -18,7 +24,7 @@ export const Register = () => {
 
     const {name, email, password, password2} = formValues;
 
-    const handleSubmit = (e) =>{
+    const handleSubmit = async (e) =>{
         e.preventDefault()
         //console.log(formValues);
 
@@ -26,7 +32,49 @@ export const Register = () => {
             handleShowAlerts('Todos los campos son obligatorios')
             return null
         }
+
+        if(!exRegEmail.test(email)){
+            handleShowAlerts('Formato de email invalido')
+            return null
+        }
+
+        if(password !== password2){
+            handleShowAlerts('Las contraseña no coinciden')
+            return null
+        }
+    
+    
+        try {
+
+            setSending(true)
+
+            const {data} = await clientAxios.post('/auth/register',{
+                name,
+                email,
+                password
+            });
+
+            setSending(false)
+
+            Swal.fire({
+                icon: 'info',
+                title: 'Gracias por Registrarte!',
+                text: data.msg,
+            })
+            
+            reset()
+
+
+        } catch (error) {
+            console.error(error);
+            handleShowAlerts(error.response.data.msg)
+            reset()
+        }
     }
+
+
+
+
 
     const handleShowAlerts = (msg) => {
         setAlert({
@@ -46,7 +94,7 @@ export const Register = () => {
                         <Card.Title className={'text-center'}>Creá tu cuenta</Card.Title>
                         {alert.msg && <Alerta {...alert}/>}
                         
-                    <Form onSubmit={handleSubmit}>
+                    <Form onSubmit={handleSubmit} noValidate>
 
                         <Form.Group className="mb-3">
                             <Form.Label htmlFor="name">Nombre</Form.Label>
@@ -91,7 +139,7 @@ export const Register = () => {
                         <Form.Group className="mb-3">
                             <Form.Label htmlFor="password3">Confirmar contraseña</Form.Label>
                             <Form.Control
-                                input
+                                
                                 id="password2"
                                 type="password"
                                 placeholder="confirme su contraseña"
@@ -105,7 +153,7 @@ export const Register = () => {
 
 
                         <Container className="m-auto text-center" style={{ width: '100%' }}>
-                            <Button type="submit">Crear Cuenta</Button>
+                            <Button type="submit" disabled={sending}>Crear Cuenta</Button>
                         </Container>
                     </Form>
                     <Nav>
