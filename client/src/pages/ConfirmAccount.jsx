@@ -18,7 +18,7 @@ export const ConfirmAccount = () => {
         setAlert({
             msg
         });
-    }
+    };
 
     useEffect(() => {
 
