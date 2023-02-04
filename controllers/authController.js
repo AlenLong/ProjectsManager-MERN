@@ -125,7 +125,7 @@ module.exports = {
             };
 
             user.checked = true;
-            user.token = '';
+            user.token = ''; //borro  el token
 
             await user.save()
 
