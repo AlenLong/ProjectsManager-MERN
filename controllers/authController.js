@@ -91,11 +91,11 @@ module.exports = {
                 msg: "Usuario logueado.",
                 user: {
                     nombre : user.name,
-                    email : user.email,
+                    _id : user._id,
+                },
                     token : generateJWT({
                         id : user._id
                     })
-                }
             });
         } catch (error) {
             return errorResponse(res,error, "LOGIN")
