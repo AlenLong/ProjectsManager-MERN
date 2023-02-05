@@ -41,7 +41,7 @@ const nodemailer = require ('nodemailer');
                 subject : 'Restablecé tu contraseña',
                 text : 'Restablecé tu contraseña en Projects Manager',
                 html : `<p>Hola ${name}, hacé click en el siguiente enlace</p>
-                <a href="${process.env.URL_FRONTEND}/confirm/${token}">Restablecer contraseña</a>`
+                <a href="${process.env.URL_FRONTEND}/recover-password/${token}">Restablecer contraseña</a>`
 
 
             })

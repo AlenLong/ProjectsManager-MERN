@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Card, Row, Form, Container, Button, Nav } from "react-bootstrap"
+import { Card, Form, Container, Button, Nav } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import Swal from "sweetalert2";
 import { Alerta } from "../components/Alerta";
@@ -29,7 +29,7 @@ export const ForgetPassword = () => {
 
             Swal.fire({
                 icon: 'info',
-                title: 'Revisa tu casilla de correo',
+                title: 'Revisa tu casilla de correo!',
                 text: data.msg,
                 confirmButtonText : 'Entendido',
                 allowOutsideClick : false
@@ -38,7 +38,6 @@ export const ForgetPassword = () => {
             setEmail('');
             
         } catch (error) {
-            console.error(error)
             handleShowAlerts(error.response?.data.msg)
             setEmail('');
         }

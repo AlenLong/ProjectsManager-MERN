@@ -185,7 +185,7 @@ module.exports = {
     verifyToken: async (req, res) => {
         try {
 
-            const {} = req.query;
+            const {token} = req.query;
 
             if(!token) throw createError(400,'No hay token en la petición');
 
@@ -219,7 +219,9 @@ module.exports = {
 
             const user = await User.findOne({
                 token
-            })
+            });
+
+            if(!user) throw createError(400,'Token invalido');
 
             user.password = password;
             user.token = "";
@@ -227,7 +229,7 @@ module.exports = {
 
             return res.status(200).json({
                 ok: true,
-                msg: "Password actualizada correctamente.",
+                msg: "Contraseña actualizada con exito.",
             });
         } catch (error) {
             return errorResponse(res,error, "CHANGE-PASSWORD")
