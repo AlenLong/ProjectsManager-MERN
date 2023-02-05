@@ -61,7 +61,7 @@ export const ConfirmAccount = () => {
                             <>
                                 <Alerta {...alert}/>
 
-                                <nav>
+                                <nav className="d-flex">
                                     <Link to={'/register'}>
                                         No tenés cuenta? Registrate
                                     </Link>

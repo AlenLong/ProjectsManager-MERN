@@ -30,7 +30,7 @@ export const Login = () => {
                             <Button type="submit">Iniciar Sesión</Button>
                         </Container>
                     </Form>
-                    <nav>
+                    <nav className="d-flex">
                         <Link to={'/register'}>¿No tenés una cuenta? Registrate</Link>
                         <Link to={'/forget-password'}>Olvidé mi password</Link>
                     </nav>
