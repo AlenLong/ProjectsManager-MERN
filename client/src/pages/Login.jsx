@@ -1,12 +1,15 @@
 import { useState } from "react"
-import { Card, Row, Form, Container, Button } from "react-bootstrap"
+import { Card, Form, Container, Button } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import { Alerta } from "../components/Alerta"
+import { clientAxios } from "../config/clientAxios"
+import useAuth from "../hooks/useAuth"
 import { useForm } from "../hooks/useForm"
 
 export const Login = () => {
 
     const [alert, setAlert] = useState({})
+    const {setAuth} = useAuth()
 
     const handleShowAlerts = (msg, time = true) => {
         setAlert({
@@ -29,13 +32,32 @@ export const Login = () => {
 
     const {email, password}= formValues;
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if([ email, password].includes('')){
             handleShowAlerts('Todos los campos son obligatorios')
             return null
         }
+
+        try {
+
+            const {data} = await clientAxios.post('/auth/login',{
+                email,
+                password
+            })
+
+            console.log(data);
+
+            setAuth(data.user);
+            sessionStorage.setItem('token', data.token)
+
+            
+        } catch (error) {
+            console.error(error)
+            handleShowAlerts(error.response?.data.msg)
+        }
+
     };
 
     return (

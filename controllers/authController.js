@@ -30,6 +30,7 @@ module.exports = {
                 }
                 
                 const token = generateToken();
+                
                 user = new User(req.body)
                 user.token = token;
 
@@ -74,14 +75,14 @@ module.exports = {
             });
 
                 if(!user){
-                    throw createError(403,'Credenciales invalidas | EMAIL')
+                    throw createError(403,'Credenciales invalidas')
                 }
                 if(!user.checked){
                     throw createError(403,'Tu cuenta no ah sido confirmada')
                 }
                 
                 if(!await user.checkedPassword(password)){   
-                    throw createError(403,'Credenciales invalidas | PASSWORD')
+                    throw createError(403,'Credenciales invalidas')
                     
                 } 
                     

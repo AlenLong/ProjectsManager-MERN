@@ -5,6 +5,7 @@ module.exports = {
             return res.status(200).json({
                 ok: true,
                 msg: "Perfil de usuario.",
+                user: req.user
             });
         } catch (error) {
             console.log(error);
