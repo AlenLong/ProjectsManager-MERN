@@ -56,10 +56,9 @@ module.exports = {
             
             const project = await Project.findById(id);
 
-            /* if(!project)throw createError(404,'Proyecto no encontrado') */
+            if(!project)throw createError(404,'Proyecto no encontrado')
 
-
-
+            if(req.user._id.toString() !== project.createdBy.toString()) throw createError(401, 'No tiene autorizacion')
             return res.status(200).json({
                 ok: true,
                 msg: "Detalle de proyecto.",
