@@ -54,7 +54,7 @@ module.exports = {
 
             const {id} = req.params;
             
-            const project = await project.findById(id);
+            const project = await Project.findById(id);
 
             /* if(!project)throw createError(404,'Proyecto no encontrado') */
 
