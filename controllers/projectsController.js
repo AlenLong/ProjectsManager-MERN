@@ -1,6 +1,7 @@
 const createError = require("http-errors");
 const Project = require("../database/models/Project");
 
+
 module.exports = {
     list: async (req, res) => {
         try {
@@ -14,10 +15,7 @@ module.exports = {
             });
         } catch (error) {
             console.log(error);
-            return res.status(error.status || 500).json({
-                ok: false,
-                msg: error.message || "Error! Problemas en Lista de proyectos",
-            });
+            return errorResponse(res, error, "LOGIN");
         }
     },
 
@@ -38,25 +36,34 @@ module.exports = {
 
             const projectStore = await project.save()
 
-            return res.status(200).json({
+            return res.status(201).json({
                 ok: true,
                 msg: "Proyecto guardado.",
                 project : projectStore
             });
         } catch (error) {
             console.log(error);
-            return res.status(error.status || 500).json({
-                ok: false,
-                msg: error.message || "error! Problemas para guardar el proyecto.",
-            });
+            /* return errorResponse(res, error, "LOGIN"); */
         }
     },
 
+
+
     detail: async (req, res) => {
         try {
+
+            const {id} = req.params;
+            
+            const project = await project.findById(id);
+
+            /* if(!project)throw createError(404,'Proyecto no encontrado') */
+
+
+
             return res.status(200).json({
                 ok: true,
                 msg: "Detalle de proyecto.",
+                project
             });
         } catch (error) {
             console.log(error);
