@@ -1,8 +1,13 @@
 const createError = require("http-errors");
 const Project = require("../database/models/Project");
+const errorResponse = require("../helpers/errorResponse");
+const ObjectId = require('mongoose').Types.ObjectId
+
 
 
 module.exports = {
+
+
     list: async (req, res) => {
         try {
 
@@ -18,6 +23,9 @@ module.exports = {
             return errorResponse(res, error, "LOGIN");
         }
     },
+
+
+
 
     store: async (req, res) => {
         try {
@@ -43,7 +51,7 @@ module.exports = {
             });
         } catch (error) {
             console.log(error);
-            /* return errorResponse(res, error, "LOGIN"); */
+            return errorResponse(res, error, "LOGIN");
         }
     },
 
@@ -53,7 +61,9 @@ module.exports = {
         try {
 
             const {id} = req.params;
-            
+
+            if(!ObjectId.isValid(id)) throw createError(400,'No es un ID Valido')
+
             const project = await Project.findById(id);
 
             if(!project)throw createError(404,'Proyecto no encontrado')
@@ -73,11 +83,35 @@ module.exports = {
         }
     },
 
+
+
+
     update: async (req, res) => {
         try {
+
+            const {id} = req.params;
+
+            if(!ObjectId.isValid(id)) throw createError(400,'No es un ID Valido')
+
+            const project = await Project.findById(id);
+
+            if(!project)throw createError(404,'Proyecto no encontrado')
+
+            if(req.user._id.toString() !== project.createdBy.toString()) throw createError(401, 'Usuario no autorizado')
+
+            const {name, description, client, dateExpire} = req.body;
+
+            project.name = name || project.name;
+            project.description = description || project.description;
+            project.client = client || project.client;
+            project.dateExpire = dateExpire || project.dateExpire;
+
+            const projectUpdated = await project.save()
+
             return res.status(200).json({
                 ok: true,
                 msg: "Proyecto actualizado.",
+                project : projectUpdated
             });
         } catch (error) {
             console.log(error);
@@ -88,8 +122,24 @@ module.exports = {
         }
     },
 
+
+
+
     remove: async (req, res) => {
         try {
+
+            const {id} = req.params;
+
+            if(!ObjectId.isValid(id)) throw createError(400,'No es un ID Valido')
+
+            const project = await Project.findById(id);
+
+            if(!project)throw createError(404,'Proyecto no encontrado')
+
+            if(req.user._id.toString() !== project.createdBy.toString()) throw createError(401, 'Usuario no autorizado')
+
+            await project.deleteOne()
+
             return res.status(200).json({
                 ok: true,
                 msg: "Proyecto eliminado.",
