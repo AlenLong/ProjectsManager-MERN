@@ -1,9 +1,9 @@
 import React from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
-import { Card, Row } from 'react-bootstrap'
+import { Row, Col } from 'react-bootstrap'
 import useAuth from '../hooks/useAuth'
-import {Header} from '../components/Header'
-import {Sidebar} from '../components/Sidebar'
+import { Header } from '../components/Header'
+import { Sidebar } from '../components/Sidebar'
 
 
 
@@ -13,10 +13,10 @@ export const ProtectedLayaut = () => {
     console.log(auth)
 
     {
-        if(loading) {
+        if (loading) {
             return (
                 <p>Cargando...</p>
-                )
+            )
         }
     }
     return (
@@ -24,22 +24,27 @@ export const ProtectedLayaut = () => {
             {
                 auth._id ? (
 
-            <Row className="align-items-center" style={{ height: '100vh' }}>
-            <Card className='m-auto text-center'  style={{ width: '20rem' }}>
-                <div>
-                <Header/>
-                <div>
-                <Sidebar/>
-                <main>
-                <Outlet />
-                </main>
-                </div>
-                </div>
-            </Card>
-            </Row>
-                ):(
-                    <Navigate to='/'/>
-                ) 
+                    /*             <Row className="align-items-center" style={{ height: '100vh' }}>
+                                <Card className='m-auto text-center'  style={{ width: '20rem' }}> */
+
+                            <div>
+                                <Header />
+                                <Row>
+                                    <Col xs={3}>
+                                        <Sidebar />
+                                    </Col>
+                                        
+                                    <Col>
+                                        <main>
+                                            <Outlet />
+                                        </main>
+                                    </Col>
+                                </Row>
+                            </div>
+
+                ) : (
+                    <Navigate to='/' />
+                )
             }
         </>
 
