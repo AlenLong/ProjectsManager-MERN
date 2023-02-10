@@ -8,7 +8,9 @@ import { Register } from "./pages/Register"
 import { ConfirmAccount } from "./pages/ConfirmAccount"
 import { AuthProvider } from "./context/authProvider"
 import { Projects } from "./pages/Projects"
-
+import { Project } from "./pages/Project";
+import { ProjectAdd } from "./pages/ProjectAdd";
+import { ProjectEdit } from "./pages/ProjectEdit";
 
 
 function App() {
@@ -18,7 +20,9 @@ function App() {
     <BrowserRouter>
     <AuthProvider>
       <Routes>
+
         {/* RUTAS PUBLICAS */}
+
         <Route
           path='/'
           element={<AuthLayout/>}
@@ -48,7 +52,9 @@ function App() {
           element={ <h1>404 Not Found</h1> } 
         />
         </Route>
+
         {/* RUTAS PRIVADAS */}
+
         <Route 
         path='/projects'
         element={<ProtectedLayaut/>}
@@ -57,6 +63,9 @@ function App() {
         index
         element={<Projects/>}
         />
+        <Route path="create-project" element={<ProjectAdd />} />
+            <Route path="edit-project/:id" element={<ProjectEdit />} />
+            <Route path=":id" element={<Project />} />
         </Route>
       </Routes>
       </AuthProvider>
