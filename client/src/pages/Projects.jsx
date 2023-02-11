@@ -1,11 +1,12 @@
 import React from 'react';
 import { ProjectPreview } from '../components/ProjectPreview';
+import { UseProjects } from '../hooks/UseProjects';
 
 
 
 export const Projects = () => {
 
-  const projects = [1,2]
+  const {loading,alert,projects, getProjects} = UseProjects()
 
   
   return (
