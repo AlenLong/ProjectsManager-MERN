@@ -1,9 +1,39 @@
 import React from "react";
+import {useForm} from '../hooks/useForm'
+import { UseProjects } from "../hooks/UseProjects";
+import { Alerta } from "./Alerta";
+
+
 export const FormProject = () => {
+
+    const {alert, showAlert, storeSingleProject} = UseProjects();
+
+    const {formValues, handleInputChange, reset} = useForm({
+        name : '',
+        description : '',
+        dateExpire : '',
+        client :''
+    })
+
+    const {name, description, dateExpire, client} = formValues;
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if([name, description, dateExpire, client].includes('')){
+            showAlert('Todos los campos son obligatorios')
+            return null
+        }
+    }
+
     return (
         <form
-        /* onSubmit={} */
+        onSubmit={handleSubmit}
         >
+            {
+                alert.msg && <Alerta {...alert}/>
+            }
+
+
             <div>
                 <label
                     htmlFor="name"
@@ -14,6 +44,9 @@ export const FormProject = () => {
                     id="name"
                     type="text"
                     placeholder="Nombre del proyecto"
+                    value={name}
+                    onChange={handleInputChange}
+                    name='name'
                 />
             </div>
             <div >
@@ -27,6 +60,9 @@ export const FormProject = () => {
                     type="text"
                     style={{ resize: "none" }}
                     placeholder="Descripción del proyecto"
+                    value={description}
+                    onChange={handleInputChange}
+                    name='description'
                 />
             </div>
             <div >
@@ -38,6 +74,9 @@ export const FormProject = () => {
                 <input
                     id="date-expire"
                     type="date"
+                    value={dateExpire}
+                    onChange={handleInputChange}
+                    name='dateExpire'
                 />
             </div>
             <div >
@@ -51,6 +90,9 @@ export const FormProject = () => {
                     id="client"
                     type="text"
                     placeholder="Nombre del cliente"
+                    value={client}
+                    onChange={handleInputChange}
+                    name='client'
                 />
             </div>
             <button>

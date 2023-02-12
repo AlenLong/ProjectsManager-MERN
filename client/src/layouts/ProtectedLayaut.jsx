@@ -10,7 +10,7 @@ import { Sidebar } from '../components/Sidebar'
 export const ProtectedLayaut = () => {
 
     const { auth, loading } = useAuth();
-    console.log(auth)
+    //console.log(auth)
 
     {
         if (loading) {

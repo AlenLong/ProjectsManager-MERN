@@ -22,7 +22,7 @@ export const Header = () => {
                     />
                     <Button variant="outline-secondary">Buscar</Button>
                 </Form>
-                    <Nav.Link to='/projects'>Proyectos</Nav.Link>
+                    <Link to='/projects'>Proyectos</Link>
                     <Button variant="outline-danger" /* onClick={closeSession} */ >
                         Cerrar sesión
                     </Button>

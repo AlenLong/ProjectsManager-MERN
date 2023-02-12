@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Task } from "../components/Task"
+import { Alerta } from "../components/Alerta"
 /* import { Collaborator } from "../components/Collaborator" */
 import { UseProjects } from "../hooks/UseProjects";
 
@@ -13,7 +14,9 @@ export const Project = () => {
 
     useEffect(() => {
         getSingleProject(id)
-    }, [])
+    }, [id])
+
+    if(alert.msg) return <Alerta {...alert}/>
 
     return (
         <div>
@@ -27,7 +30,7 @@ export const Project = () => {
                                 <Link
                                     to={`/projects/edit-project/:id`}
                                 >
-                                    <svg
+{/*                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
                                         viewBox="0 0 24 24"
@@ -42,17 +45,21 @@ export const Project = () => {
 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863
 4.487zm0 0L19.5 7.125"
                                         />
-                                    </svg>
+                                    </svg> */}
                                     <p>Editar</p>
                                 </Link>
                             </div>
-
+                                <h2>{client}</h2>
+                                <hr className="border-b border-grey-600"/>
+                                <p>{description}</p>
+                                <br />
+                                <br />
                             <div >
                                 <p >Tareas del proyecto</p>
                                 <div
                                 /* onClick={} */
                                 >
-                                    <svg
+{/*                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
                                         viewBox="0 0 24 24"
@@ -65,7 +72,7 @@ export const Project = () => {
                                             strokeLinejoin="round"
                                             d="M12 4.5v15m7.5-7.5h-15"
                                         />
-                                    </svg>
+                                    </svg> */}
                                     <p>Nueva Tarea</p>
                                 </div>
                             </div>
