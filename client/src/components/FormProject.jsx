@@ -6,7 +6,7 @@ import { Alerta } from "./Alerta";
 
 export const FormProject = () => {
 
-    const {alert, showAlert, storeSingleProject} = UseProjects();
+    const {alert, showAlerts, storeSingleProject} = UseProjects();
 
     const {formValues, handleInputChange, reset} = useForm({
         name : '',
@@ -20,9 +20,18 @@ export const FormProject = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         if([name, description, dateExpire, client].includes('')){
-            showAlert('Todos los campos son obligatorios')
+            showAlerts('Todos los campos son obligatorios')
             return null
         }
+
+        storeSingleProject({
+            name,
+            description,
+            dateExpire,
+            client
+          })
+
+
     }
 
     return (
