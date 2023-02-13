@@ -16,24 +16,6 @@ export const FormProject = () => {
     const inputDateExpire = useRef(null)
     const inputClient = useRef(null)
 
-    
-
-    useEffect(() => {
-        if(id){
-            const {name, description, dateExpire, client} = singleProject;
-            inputName.current.value = /* singleProject. */name;
-            inputDescription.current.value = /* singleProject. */description;
-            inputDateExpire.current.value = /* singleProject. */dateExpire.split('T')[0];
-            inputClient.current.value = /* singleProject. */client;
-
-/*             name = singleProject.name;
-            description = singleProject.description;
-            dateExpire = singleProject.dateExpire;
-            client = singleProject.client; */
-        }
-    }, [])
-    
-
     const {formValues, handleInputChange, reset} = useForm({
         name : '',
         description : '',
@@ -41,9 +23,26 @@ export const FormProject = () => {
         client :''
     })
 
-    const {name, description, dateExpire, client} = formValues;
+    let {name, description, dateExpire, client} = formValues;
 
 
+    useEffect(() => {
+        if(id){
+            //const {name, description, dateExpire, client} = singleProject;
+            inputName.current.value = singleProject.name;
+            inputDescription.current.value = singleProject.description;
+            inputDateExpire.current.value = singleProject.dateExpire.split('T')[0];
+            inputClient.current.value = singleProject.client;
+
+            name = singleProject.name;
+            description = singleProject.description;
+            dateExpire = singleProject.dateExpire;
+            client = singleProject.client;
+        }
+    }, [id])
+    
+
+    
     const handleSubmit = (e) => {
         e.preventDefault()
         if([name, description, dateExpire, client].includes('')){
@@ -51,10 +50,8 @@ export const FormProject = () => {
             return null
         }
 
-        console.log(formValues);
-        return null
-
         storeSingleProject({
+            id : id ? id : null,
             name,
             description,
             dateExpire,
@@ -63,6 +60,8 @@ export const FormProject = () => {
 
 
     }
+
+
 
     return (
         <form
