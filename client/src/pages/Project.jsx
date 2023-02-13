@@ -10,7 +10,7 @@ export const Project = () => {
     const {id} = useParams()
     const { loading, alert, getSingleProject, singleProject } = UseProjects()
 
-    const { name, description, dateExpires, client } = singleProject
+    const { name, description, dateExpire, client, _id } = singleProject
 
     useEffect(() => {
         getSingleProject(id)
@@ -28,7 +28,7 @@ export const Project = () => {
                             <div>
                                 <h1>{name}</h1>
                                 <Link
-                                    to={`/projects/edit-project/:id`}
+                                    to={`/projects/edit-project/${_id}`}
                                 >
 {/*                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -50,6 +50,7 @@ export const Project = () => {
                                 </Link>
                             </div>
                                 <h2>{client}</h2>
+                                <p>Fecha de entrega: {dateExpire.split('T')[0]} </p>
                                 <hr className="border-b border-grey-600"/>
                                 <p>{description}</p>
                                 <br />
@@ -78,7 +79,7 @@ export const Project = () => {
                             </div>
                             {
                                 [1, 2].map(task => (
-                                    <Task />
+                                    <Task hey={task}/>
                                 ))
                             }
                             <div >

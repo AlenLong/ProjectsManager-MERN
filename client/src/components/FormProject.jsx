@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useRef} from "react";
+import { useParams } from "react-router-dom";
 import {useForm} from '../hooks/useForm'
 import { UseProjects } from "../hooks/UseProjects";
 import { Alerta } from "./Alerta";
@@ -6,7 +7,25 @@ import { Alerta } from "./Alerta";
 
 export const FormProject = () => {
 
-    const {alert, showAlerts, storeSingleProject} = UseProjects();
+    const {alert, showAlerts, storeSingleProject, singleProject} = UseProjects();
+
+    const {id} = useParams()
+
+    const inputName = useRef(null)
+    const inputDescription = useRef(null)
+    const inputDateExpire = useRef(null)
+    const inputClient = useRef(null)
+
+    useEffect(() => {
+        if(id){
+            const {name, description, dateExpire, client} = singleProject;
+            inputName.current.value = name;
+            inputDescription.current.value = description;
+            inputDateExpire.current.value = dateExpire;
+            inputClient.current.value = client;
+        }
+    }, [])
+    
 
     const {formValues, handleInputChange, reset} = useForm({
         name : '',
@@ -16,6 +35,7 @@ export const FormProject = () => {
     })
 
     const {name, description, dateExpire, client} = formValues;
+
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -29,7 +49,7 @@ export const FormProject = () => {
             description,
             dateExpire,
             client
-          })
+            })
 
 
     }
@@ -56,6 +76,7 @@ export const FormProject = () => {
                     value={name}
                     onChange={handleInputChange}
                     name='name'
+                    ref={inputName}
                 />
             </div>
             <div >
@@ -72,6 +93,7 @@ export const FormProject = () => {
                     value={description}
                     onChange={handleInputChange}
                     name='description'
+                    ref={inputDescription}
                 />
             </div>
             <div >
@@ -86,6 +108,7 @@ export const FormProject = () => {
                     value={dateExpire}
                     onChange={handleInputChange}
                     name='dateExpire'
+                    ref={inputDateExpire}
                 />
             </div>
             <div >
@@ -102,6 +125,7 @@ export const FormProject = () => {
                     value={client}
                     onChange={handleInputChange}
                     name='client'
+                    ref={inputClient}
                 />
             </div>
             <button>

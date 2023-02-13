@@ -6,7 +6,7 @@ return (
 <div>
 <h1>Editar proyecto: Nombre del proyecto</h1>
 <div>
-<svg
+{/* <svg
 xmlns="http://www.w3.org/2000/svg"
 fill="none"
 viewBox="0 0 24 24"
@@ -24,7 +24,7 @@ d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107
 1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09
 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
 />
-</svg>
+</svg> */}
 <button
 /* onClick={} */
 >Eliminar</button>
