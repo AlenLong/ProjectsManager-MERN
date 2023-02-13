@@ -16,13 +16,20 @@ export const FormProject = () => {
     const inputDateExpire = useRef(null)
     const inputClient = useRef(null)
 
+    
+
     useEffect(() => {
         if(id){
             const {name, description, dateExpire, client} = singleProject;
-            inputName.current.value = name;
-            inputDescription.current.value = description;
-            inputDateExpire.current.value = dateExpire;
-            inputClient.current.value = client;
+            inputName.current.value = /* singleProject. */name;
+            inputDescription.current.value = /* singleProject. */description;
+            inputDateExpire.current.value = /* singleProject. */dateExpire.split('T')[0];
+            inputClient.current.value = /* singleProject. */client;
+
+/*             name = singleProject.name;
+            description = singleProject.description;
+            dateExpire = singleProject.dateExpire;
+            client = singleProject.client; */
         }
     }, [])
     
@@ -43,6 +50,9 @@ export const FormProject = () => {
             showAlerts('Todos los campos son obligatorios')
             return null
         }
+
+        console.log(formValues);
+        return null
 
         storeSingleProject({
             name,
